@@ -32,7 +32,17 @@ int ClientApplication::runApplication(int argc, char** argv) {
 
 	do {
 		clientTime = getClientInput();
-		convertedTime = stoll(clientTime);
+
+		//This does basic client-side input verification
+		//If user doesn't send a valid time, it won't be sent
+		//to server
+		if (isValidMessage(clientTime)) { 
+			convertedTime = stoll(clientTime);
+		} else {
+			cout << "Invalid message!" << endl; 
+			convertedTime = 0;
+			continue;
+		}
 
 		//sends converted time to server
 		_mediator.sendRequest(clientTime);
@@ -51,7 +61,7 @@ void ClientApplication::displayResponse(string position) {
 
     if (stoll(position) >= 0) {
     	if (_logging) {
-	    cout << position << endl;
+	    	cout << position << endl;
 		}
     } else {
         //Server is ending connection
@@ -68,4 +78,11 @@ string ClientApplication::getClientInput() {
 	}
 	getline(cin, clientTime);
 	return clientTime;
+}
+
+/**
+* A valid message is a message which starts with a digit
+**/
+bool ClientApplication::isValidMessage(string message) {
+	return strtoll(message.c_str(), NULL, 0);
 }

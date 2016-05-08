@@ -81,7 +81,7 @@ string ServerMediator::getResponse() {
 
     recv(_serverSocketId, msg, MAX_BUF, 0);
 
-	return string(msg);
+	  return string(msg);
 }
 
 /************************************

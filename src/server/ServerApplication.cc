@@ -18,6 +18,7 @@ int ServerApplication::runApp(int argc, char** argv) {
     string clientMessage = "";
     string position = "";
     string port = argv[1];
+    bool isValid = false, isClosingMessage = false;
     
     if (LOGGING) {
         cout << "Starting server!" << endl;
@@ -40,9 +41,19 @@ int ServerApplication::runApp(int argc, char** argv) {
         //Client connects and send their time in the race
         curClient = server->acceptClient();
         do {
-            clientMessage = server->getMessageFromClient(curClient);        
+            clientMessage = server->getMessageFromClient(curClient);
+            isValid = isValidMessage(clientMessage);
+
+            //First, we'll check if client sends a valid message
+            if (!isValid) {
+                server->sendMessageToClient(curClient, "0");
+                isClosingMessage = false; //We'll keep taking request from user
+                continue;
+            }
+
             //Checks if client wants to close connection
-            if (isClosingSignal(clientMessage)) {
+            isClosingMessage = isClosingSignal(clientMessage);
+            if (isClosingMessage) {
                 _timeRanking->clear();
                 server->closeConnection(curClient);
              } else {
@@ -53,7 +64,7 @@ int ServerApplication::runApp(int argc, char** argv) {
                  server->sendMessageToClient(curClient, position);
              }
 
-        } while (!isClosingSignal(clientMessage));
+        } while (!isClosingMessage);
     }
     
     //Will never reach below lines in single-threaded version
@@ -63,6 +74,9 @@ int ServerApplication::runApp(int argc, char** argv) {
 
 }
 
+/** 
+* A closing signal is a negative number which the client sends 
+**/
 bool ServerApplication::isClosingSignal(string message) {
     int signal = stoi(message);
 
@@ -70,6 +84,13 @@ bool ServerApplication::isClosingSignal(string message) {
         return true;
     else
         return false;
+}
+
+/**
+* A valid message is a message which starts with a digit
+**/
+bool ServerApplication::isValidMessage(string message) {
+    return strtoll(message.c_str(), NULL, 0);
 }
 
 ServerApplication::~ServerApplication() {

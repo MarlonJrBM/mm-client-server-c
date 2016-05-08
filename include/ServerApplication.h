@@ -20,6 +20,8 @@ private:
     bool isClosingSignal(std::string);
 
     long long convertMessageToTime(std::string);
+
+    bool isValidMessage(std::string);
 	
 };
 

@@ -18,6 +18,7 @@ private:
 	std::string getClientInput();
 	long long convertTime(std::string);
 	void displayResponse(std::string);
+	bool isValidMessage(std::string);
 
 
 };

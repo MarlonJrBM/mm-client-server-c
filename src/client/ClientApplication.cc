@@ -26,7 +26,7 @@ int ClientApplication::runApplication(int argc, char** argv) {
     
 	connectionFlag = _mediator.connectToServer(addr.c_str(), stoul(port));
     if (connectionFlag != 0 ) {
-        cout << "ERROR! Could not bind to server at " << addr <<  ":" << port << endl;
+        cout << "ERROR! Could not connect to server at " << addr <<  ":" << port << endl;
         exit(1);
     }
 
@@ -50,7 +50,9 @@ int ClientApplication::runApplication(int argc, char** argv) {
 void ClientApplication::displayResponse(string position) {
 
     if (stoll(position) >= 0) {
+    	if (_logging) {
 	    cout << position << endl;
+		}
     } else {
         //Server is ending connection
         if (_logging) {

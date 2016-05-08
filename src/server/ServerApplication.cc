@@ -49,6 +49,7 @@ int ServerApplication::runApp(int argc, char** argv) {
                 //Will handle user request, sending his/her
                 //position back
                  position = _timeRanking->insert(clientMessage);
+                 cout << position << endl;
                  server->sendMessageToClient(curClient, position);
              }
 

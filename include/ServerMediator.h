@@ -25,7 +25,7 @@ public:
 	void sendRequest(std::string);
 
 private:
-	const static bool _logging = true;
+	const static bool _logging = false;
     struct sockaddr_in6 _serverSocket; 
     int _serverSocketId;
 

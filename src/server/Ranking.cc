@@ -24,7 +24,7 @@ string Ranking::insert(string s) {
         cout << "Inserting message into ranking" << endl;
     }
 
-    multiset<unsigned>::iterator it;
+    multiset<unsigned long long>::iterator it;
     unsigned int position = 0;
 
     //Converts string to unsigned...
@@ -60,9 +60,28 @@ unsigned long long Ranking::convertMessageToTime(string message) {
         //The below function WILL BREAK THE PROGRAM is user provides wrong input
         number = stoi(word, &index); /* index will store the amount of characters processed */
 
-        //Input doesn't have time identifier after it, will just return the number
+        //Input doesn't have time identifier right after it...
         if (word.size() < index+1) {
-            return number;
+
+            //There are no more words, we'll just return the number
+            if (ii == words.size() - 1) {
+                cout << "WARNING: Something is wrong with input but I'm taking it anyway..." << endl;
+                return number;
+            }
+
+            //Is the next word a letter?
+            word = words[++ii];
+            if (isalpha(word[0])) {
+
+                //Good,we'll keep a reference to it in the word and index variable and use it in the below
+                //switch
+                index = 0;
+            } else {
+
+                //If it isn't we'll just return the number again
+                cout << "WARNING: Something is wrong with input but I'm taking it anyway..." << endl;
+                return number;
+            }
         }
 
         switch (word[index]) { /* now we grab the letter right after the number */

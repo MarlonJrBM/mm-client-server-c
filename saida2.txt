@@ -1,0 +1,2 @@
+ERROR binding server socket.
+Maybe try a different port?

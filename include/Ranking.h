@@ -17,7 +17,7 @@ public:
     void clear();
 
 private:
-    std::multiset<unsigned> _rankingContainer;
+    std::multiset<unsigned long long> _rankingContainer;
 
     unsigned long long convertMessageToTime(std::string);
 };

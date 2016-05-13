@@ -1,26 +1,25 @@
 BIN_0 = cliente
 BIN_1 = servidor
 
+.PHONY: cliente servidor clean
+
 all: $(BIN_0) $(BIN_1)
 	@echo Success
 
 $(BIN_0):
-	make -f src/client/client.mk
+	make -f client.mk
 
 $(BIN_1):
-	make -f src/server/server.mk
-
-
-.PHONY: clean
+	make -f server.mk
 
 
 clean:
-	make clean -f src/client/client.mk
-	make clean -f src/server/server.mk
+	make clean -f client.mk
+	make clean -f server.mk
 
 depend:
-	make depend -f src/client/client.mk
-	make depend -f src/server/server.mk
+	make depend -f client.mk
+	make depend -f server.mk
 
 
 

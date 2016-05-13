@@ -17,6 +17,6 @@ private:
     std::string _addr;
 
 };
-} //namespace
+} //namespace TP1
 
 #endif

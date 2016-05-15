@@ -96,5 +96,6 @@ bool ServerApplication::isValidMessage(string message) {
 ServerApplication::~ServerApplication() {
     Server::deleteInstance();
     if (!_timeRanking) delete(_timeRanking);
+    
 }
 

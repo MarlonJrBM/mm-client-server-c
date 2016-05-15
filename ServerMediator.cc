@@ -21,7 +21,6 @@ int ServerMediator::connectToServer(string addr, unsigned port) {
 	  int returnCode = -1; 
     in6_addr serverAddr;
     addrinfo hints;
-    addrinfo* result;
 
     //Hints structure will hold information about address
     bzero(&hints, sizeof(hints));
@@ -46,17 +45,19 @@ int ServerMediator::connectToServer(string addr, unsigned port) {
        }
     }
 
-    returnCode = getaddrinfo(addr.c_str(), to_string(port).c_str() ,&hints, &result);
+    returnCode = getaddrinfo(addr.c_str(), to_string(port).c_str() ,&hints, &_result);
 
     if (returnCode < 0 ) {
         cout << "ERROR when resolving server address" << endl;
         exit(1);
     }
 
-    _serverSocketId = socket(result->ai_family, result->ai_socktype,result->ai_protocol);
+    _serverSocketId = socket(_result->ai_family, _result->ai_socktype,_result->ai_protocol);
 
     //Connects
-    return connect(_serverSocketId, result->ai_addr, result->ai_addrlen);
+    returnCode = connect(_serverSocketId, _result->ai_addr, _result->ai_addrlen);
+
+    return returnCode;
 
 }
 
@@ -69,6 +70,14 @@ void ServerMediator::closeConnection() {
 	if (_logging) {
 		cout << "Closing connection" << endl;
 	}
+
+    if (_result != NULL) {
+        freeaddrinfo(_result);
+    }
+
+    if (_serverSocketId != -1) {
+        close(_serverSocketId);
+    }
 }
 
 

@@ -36,6 +36,14 @@ class Server {
         }
 
         static void deleteInstance() {
+            if (_serverInstance->_serverSocketId != -1) {
+                close(_serverInstance->_serverSocketId);
+            }
+
+            if (_serverInstance->_clientSocketId != -1) {
+                close(_serverInstance->_clientSocketId);
+            }
+
             if (_serverInstance != NULL) {
                 delete _serverInstance;
             }
@@ -43,9 +51,9 @@ class Server {
 
         void setUp(std::string port);
 
-        void run();
+        void run(); //NOT IMPLEMENTED
 
-        void stop();
+        void stop(); //NOT IMPLEMENTED
         
         //Accepts a client, adds it to _clientList (TODO), and returns a reference to it
         int acceptClient();

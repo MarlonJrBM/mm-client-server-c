@@ -43,6 +43,7 @@ void Server::setUp(string port) {
         exit(1);
     }
 
+    //Listens to MAX_NUM_CONNECTIONS at most 
     listen(_serverSocketId, MAX_NUM_CONNECTIONS );
 }
 
@@ -66,7 +67,7 @@ int Server::acceptClient() {
         cout << "Waiting for client" << endl;
     }
     
-    int clientId = accept(_serverSocketId, (sockaddr*) &_clientSocketId, &_addrLen );
+    _clientSocketId = accept(_serverSocketId, (sockaddr*) &_clientSocketId, &_addrLen );
 
     //TODO - Implement and return the Client object in the near future
     //For now, the server only takes one client at a time, so no need
@@ -76,7 +77,7 @@ int Server::acceptClient() {
         cout << "Client accepted..." << endl;
     }
 
-    return clientId;
+    return _clientSocketId;
 }
 
 string Server::getMessageFromClient(int clientId) {

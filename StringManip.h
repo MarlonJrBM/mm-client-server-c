@@ -1,5 +1,5 @@
-#ifndef STRINGMANIP_H
-#define STRINGMANIP_H
+#ifndef STRING_MANIP_H
+#define STRING_MANIP_H
 
 #include <iostream>
 #include <cstdio>
@@ -19,6 +19,6 @@ std::vector<std::string> getWordsFromString(std::string s) {
 	return result;
 }
 
-} //namespace
+} //namespace TP1
 
 #endif

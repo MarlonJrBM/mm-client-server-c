@@ -28,6 +28,7 @@ private:
 	const static bool _logging = false;
     struct sockaddr_in6 _serverSocket; 
     int _serverSocketId;
+    addrinfo* _result;
 
 };
 

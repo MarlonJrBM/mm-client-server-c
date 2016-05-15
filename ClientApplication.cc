@@ -82,5 +82,5 @@ string ClientApplication::getClientInput() {
 * A valid message is a message which starts with a digit
 **/
 bool ClientApplication::isValidMessage(string message) {
-	return strtoll(message.c_str(), NULL, 0);
+	return strtoll(message.c_str(), NULL, 10);
 }

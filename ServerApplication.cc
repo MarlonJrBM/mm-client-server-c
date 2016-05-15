@@ -90,7 +90,7 @@ bool ServerApplication::isClosingSignal(string message) {
 * A valid message is a message which starts with a digit
 **/
 bool ServerApplication::isValidMessage(string message) {
-    return strtoll(message.c_str(), NULL, 0);
+    return strtoll(message.c_str(), NULL, 10);
 }
 
 ServerApplication::~ServerApplication() {

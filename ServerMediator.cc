@@ -11,28 +11,33 @@ const unsigned int MAX_BUF = 101;
 /************************************
 * Opens socket to server based on
 * addr and port. Returns 0 on success
-* and -1 if bind fails.
+* and -1 if connection fails.
 ************************************/
 int ServerMediator::connectToServer(string addr, unsigned port) {
     if (_logging) {
         cout << "Connecting to Server " << addr << ":" << port << endl;
     }
     //Variables used to determine address (IPv4 vs IPv6)
-	int returnCode = -1; 
+	  int returnCode = -1; 
     in6_addr serverAddr;
     addrinfo hints;
     addrinfo* result;
 
     //Hints structure will hold information about address
     bzero(&hints, sizeof(hints));
-    hints.ai_flags    = AI_NUMERICSERV;
-    hints.ai_family   = AF_UNSPEC;
-    hints.ai_socktype = SOCK_STREAM; 
+    hints.ai_flags    = AI_NUMERICSERV; //Indicates that port is a numeric number
+    hints.ai_family   = AF_UNSPEC; //Family will be determined below
+    hints.ai_socktype = SOCK_STREAM;  //TCP
 
+    //Now let's try to figure out if it is IPv4 or IPv6
+    //If below code doesn't get executed, this means we have
+    //a name instead of a number (localhost, google.com, etc...)
+    //The AI_NUMERICHOST flag prevents the name from being resolved,
+    //in case we have our address is a number
     returnCode = inet_pton(AF_INET, addr.c_str(), &serverAddr);
     if (returnCode == 1) {  /* this is a valid IPv4 (number format) */
        hints.ai_family = AF_INET;
-       hints.ai_flags |= AI_NUMERICHOST;
+       hints.ai_flags |= AI_NUMERICHOST; 
     } else {
        returnCode = inet_pton(AF_INET6, addr.c_str(), &serverAddr);
        if (returnCode == 1) { /* this is a valid IPv6 (number format) */
@@ -81,7 +86,7 @@ string ServerMediator::getResponse() {
 
     recv(_serverSocketId, msg, MAX_BUF, 0);
 
-	  return string(msg);
+	return string(msg);
 }
 
 /************************************

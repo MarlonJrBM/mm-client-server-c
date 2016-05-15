@@ -60,9 +60,7 @@ int ClientApplication::runApplication(int argc, char** argv) {
 void ClientApplication::displayResponse(string position) {
 
     if (stoll(position) >= 0) {
-    	if (_logging) {
-	    	cout << position << endl;
-		}
+	    cout << position << endl;
     } else {
         //Server is ending connection
         if (_logging) {
